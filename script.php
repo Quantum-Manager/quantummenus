@@ -36,7 +36,7 @@ class plgSystemQuantummenusInstallerScript
 			version_compare((new Version())->getShortVersion(), '4.0', '>')
 		)
 		{
-			$this->enablePlugin();
+			$this->enablePlugin($adapter);
 		}
 
 	}
