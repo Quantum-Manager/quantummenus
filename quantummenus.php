@@ -40,7 +40,7 @@ class plgSystemQuantummenus extends CMSPlugin
 
 	public function onPreprocessMenuItems($context, $children)
 	{
-		JLoader::register('QuantummanagerHelper', JPATH_ADMINISTRATOR . '/component/com_quantummanager/helpers/quantummanager.php');
+		JLoader::register('QuantummanagerHelper', JPATH_ADMINISTRATOR . '/components/com_quantummanager/helpers/quantummanager.php');
 
 		if (
 			QuantummanagerHelper::isJoomla4() &&
