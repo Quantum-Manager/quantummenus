@@ -24,21 +24,33 @@ class plgSystemQuantummenusInstallerScript
 	/**
 	 * Called after any type of action
 	 *
-	 * @param   string  $route  Which action is happening (install|uninstall|discover_install|update)
+	 * @param   string            $route    Which action is happening (install|uninstall|discover_install|update)
 	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function postflight($route, $adapter) {
-
-		if (version_compare((new Version())->getShortVersion(), '4.0', '>'))
+	public function postflight($route, $adapter)
+	{
+		if (
+			$route === 'install' &&
+			version_compare((new Version())->getShortVersion(), '4.0', '>')
+		)
 		{
-			$db = Factory::getDbo();
-			$query = $db->getQuery( true );
-			$query->update( '#__extensions' )->set( 'enabled=1' )->where( 'type=' . $db->q( 'plugin' ) )->where( 'element=' . $db->q( 'quantummanagermedia' ) );
-			$db->setQuery( $query )->execute();
+			$this->enablePlugin();
 		}
 
+	}
+
+
+	protected function enablePlugin($parent)
+	{
+		$plugin          = new stdClass();
+		$plugin->type    = 'plugin';
+		$plugin->element = $parent->getElement();
+		$plugin->folder  = (string) $parent->getParent()->manifest->attributes()['group'];
+		$plugin->enabled = 1;
+
+		Factory::getDbo()->updateObject('#__extensions', $plugin, ['type', 'element', 'folder']);
 	}
 
 }
