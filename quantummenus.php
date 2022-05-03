@@ -67,6 +67,7 @@ class plgSystemQuantummenus extends CMSPlugin
 					'element'   => 'com_quantummanager',
 					'class'     => 'class:folder-open',
 					'ajaxbadge' => null,
+					'dashboard' => false
 				]);
 
 				/* @var $root AdministratorMenuItem */
