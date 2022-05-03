@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.8" group="system" method="upgrade">
+	<name>PLG_QUANTUMMENUS</name>
+	<creationDate>03.05.2022</creationDate>
+	<author>Tsymbal</author>
+	<authorEmail>cymbal@delo-design.ru</authorEmail>
+	<authorUrl>https://www.norrnext.com</authorUrl>
+	<copyright>Copyright © 2020 Delo Design &amp; NorrNext. All rights reserved.</copyright>
+	<license>GNU General Public License version 3 or later; see license.txt</license>
+	<version>1.0</version>
+	<description>PLG_QUANTUMMENUS_XML_DESCRIPTION</description>
+
+	<scriptfile>script.php</scriptfile>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_quantummenus.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_quantummenus.sys.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.plg_system_quantummenus.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.plg_system_quantummenus.sys.ini</language>
+	</languages>
+
+	<files>
+		<filename plugin="quantummenus">quantummenus.php</filename>
+		<folder>language</folder>
+	</files>
+
+</extension>
