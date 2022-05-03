@@ -33,7 +33,7 @@ class plgSystemQuantummenusInstallerScript
 	{
 		if (
 			$route === 'install' &&
-			version_compare((new Version())->getShortVersion(), '4.0', '>')
+			version_compare((new Version())->getShortVersion(), '4.0', '>=')
 		)
 		{
 			$this->enablePlugin($adapter);
