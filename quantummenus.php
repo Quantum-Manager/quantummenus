@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseDriver;
@@ -46,7 +47,8 @@ class plgSystemQuantummenus extends CMSPlugin
 			QuantummanagerHelper::isJoomla4() &&
 			QuantummanagerHelper::getParamsComponentValue('itemmenumove', false) &&
 			$this->app->isClient('administrator') &&
-			$context === 'com_menus.administrator.module'
+			$context === 'com_menus.administrator.module' &&
+			Factory::getUser()->authorise('core.create', 'com_quantummanager')
 		)
 		{
 			if ($this->loadAdminMenu === false)
