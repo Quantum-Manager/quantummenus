@@ -39,8 +39,25 @@ class plgSystemQuantummenus extends CMSPlugin
 	protected $removeAdminMenu = false;
 
 
+	public function __construct(&$subject, $config = array())
+	{
+		parent::__construct($subject, $config);
+
+		if(file_exists(JPATH_SITE . '/administrator/components/com_quantummanager/helpers/quantummanager.php'))
+		{
+			$this->install_quantummanager = true;
+		}
+
+	}
+
+
 	public function onPreprocessMenuItems($context, $children)
 	{
+		if(!$this->install_quantummanager)
+		{
+			return;
+		}
+
 		JLoader::register('QuantummanagerHelper', JPATH_ADMINISTRATOR . '/components/com_quantummanager/helpers/quantummanager.php');
 
 		if (
