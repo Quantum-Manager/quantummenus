@@ -9,7 +9,7 @@
 	<license>GNU General Public License version 3 or later; see license.txt</license>
 	<version>1.0</version>
 	<description>PLG_QUANTUMMENUS_XML_DESCRIPTION</description>
-
+	<namespace path="src">Joomla\Plugin\System\QuantumMenus</namespace>
 	<scriptfile>script.php</scriptfile>
 
 	<languages folder="language">
@@ -20,7 +20,8 @@
 	</languages>
 
 	<files>
-		<filename plugin="quantummenus">quantummenus.php</filename>
+		<folder>services</folder>
+		<folder plugin="quantummenus">src</folder>
 		<folder>language</folder>
 	</files>
 

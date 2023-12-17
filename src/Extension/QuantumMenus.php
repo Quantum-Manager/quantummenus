@@ -1,4 +1,5 @@
-<?php
+<?php namespace Joomla\Plugin\System\QuantumMenus\Extension;
+
 /**
  * @package    quantummenus
  * @author     Dmitry Tsymbal <cymbal@delo-design.ru>
@@ -13,58 +14,49 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\QuantumManager\Administrator\Helper\QuantummanagerHelper;
 use Joomla\Database\DatabaseDriver;
 
 /**
- * Quantummenus plugin.
+ * QuantumMenus plugin.
  *
  * @package  quantummanagermedia
  * @since    1.0
  */
-class plgSystemQuantummenus extends CMSPlugin
+class QuantumMenus extends CMSPlugin
 {
 
 	protected $app;
 
-
 	protected $db;
-
 
 	protected $autoloadLanguage = true;
 
-
 	protected $loadAdminMenu = false;
-
 
 	protected $removeAdminMenu = false;
 
-
 	protected $install_quantummanager = false;
-
 
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 
-		if(file_exists(JPATH_SITE . '/administrator/components/com_quantummanager/quantummanager.php'))
+		if (file_exists(JPATH_SITE . '/administrator/components/com_quantummanager/quantummanager.php'))
 		{
 			$this->install_quantummanager = true;
 		}
 
 	}
 
-
 	public function onPreprocessMenuItems($context, $children)
 	{
-		if(!$this->install_quantummanager)
+		if (!$this->install_quantummanager)
 		{
 			return;
 		}
 
-		JLoader::register('QuantummanagerHelper', JPATH_ADMINISTRATOR . '/components/com_quantummanager/helpers/quantummanager.php');
-
 		if (
-			QuantummanagerHelper::isJoomla4() &&
 			QuantummanagerHelper::getParamsComponentValue('itemmenumove', false) &&
 			$this->app->isClient('administrator') &&
 			$context === 'com_menus.administrator.module' &&
