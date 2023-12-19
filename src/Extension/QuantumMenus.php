@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\QuantumManager\Administrator\Helper\QuantummanagerHelper;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * QuantumMenus plugin.
@@ -42,7 +41,7 @@ class QuantumMenus extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
-		if (file_exists(JPATH_SITE . '/administrator/components/com_quantummanager/quantummanager.php'))
+		if (file_exists(JPATH_SITE . '/administrator/components/com_quantummanager/services/provider.php'))
 		{
 			$this->install_quantummanager = true;
 		}
