@@ -1,4 +1,6 @@
-<?php namespace Joomla\Plugin\System\QuantumMenus\Extension;
+<?php
+
+namespace Joomla\Plugin\System\QuantumMenus\Extension;
 
 /**
  * @package    quantummenus
@@ -11,18 +13,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\QuantumManager\Administrator\Helper\QuantummanagerHelper;
+use Joomla\Event\SubscriberInterface;
 
-/**
- * QuantumMenus plugin.
- *
- * @package  quantummanagermedia
- * @since    1.0
- */
-class QuantumMenus extends CMSPlugin
+class QuantumMenus extends CMSPlugin implements SubscriberInterface
 {
 
 	protected $app;
@@ -37,7 +35,7 @@ class QuantumMenus extends CMSPlugin
 
 	protected $install_quantummanager = false;
 
-	public function __construct(&$subject, $config = array())
+	public function __construct(&$subject, $config = [])
 	{
 		parent::__construct($subject, $config);
 
@@ -45,21 +43,30 @@ class QuantumMenus extends CMSPlugin
 		{
 			$this->install_quantummanager = true;
 		}
-
 	}
 
-	public function onPreprocessMenuItems($context, $children)
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'onPreprocessMenuItems' => 'onPreprocessMenuItems',
+		];
+	}
+
+	public function onPreprocessMenuItems(PreprocessMenuItemsEvent $event): void
 	{
 		if (!$this->install_quantummanager)
 		{
 			return;
 		}
 
+		$context  = $event->getContext();
+		$children = $event->getItems();
+
 		if (
-			QuantummanagerHelper::getParamsComponentValue('itemmenumove', false) &&
-			$this->app->isClient('administrator') &&
-			$context === 'com_menus.administrator.module' &&
-			Factory::getUser()->authorise('core.create', 'com_quantummanager')
+			QuantummanagerHelper::getParamsComponentValue('itemmenumove', false)
+			&& $this->app->isClient('administrator')
+			&& $context === 'com_menus.administrator.module'
+			&& Factory::getApplication()->getIdentity()->authorise('core.create', 'com_quantummanager')
 		)
 		{
 			if ($this->loadAdminMenu === false)
@@ -73,7 +80,7 @@ class QuantumMenus extends CMSPlugin
 					$const = 'COM_QUANTUMMANAGER_MENUS_FILES';
 				}
 
-				$parent = new AdministratorMenuItem ([
+				$parent = new AdministratorMenuItem([
 					'title'     => $const,
 					'type'      => 'component',
 					'link'      => 'index.php?option=com_quantummanager',
@@ -87,14 +94,15 @@ class QuantumMenus extends CMSPlugin
 				$root = $children[0]->getParent();
 				$root->addChild($parent);
 				$this->loadAdminMenu = true;
-
 			}
 			elseif ($this->removeAdminMenu === false)
 			{
 				foreach ($children as $child)
 				{
-					if ($child->type === 'component'
-						&& (int) $child->component_id === ComponentHelper::getComponent('com_quantummanager')->id)
+					if (
+						$child->type === 'component'
+						&& $child->component_id === ComponentHelper::getComponent('com_quantummanager')->id
+					)
 					{
 						$child->getParent()->removeChild($child);
 						$this->removeAdminMenu = true;
